@@ -2,12 +2,13 @@
     --jtk-workspace-icon-color:white;
     --jtk-workspace-window-color:white;
     --jtk-workspace-window-content-color:whitesmoke;
+    --jtk-workspace-bg:linear-gradient(#cfd7d5, #c6c6c8);
 }
 
 #workspace {
     width:100vw;
     height:100vh;
-    background-color: #3E7E9C;
+    background: var(--jtk-workspace-bg);
 }
 
 #workspace .jtk-most-recently-dragged {
