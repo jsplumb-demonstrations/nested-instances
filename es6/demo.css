@@ -1,0 +1,40 @@
+:root {
+    --jtk-workspace-icon-color:white;
+    --jtk-workspace-window-color:white;
+    --jtk-workspace-window-content-color:whitesmoke;
+}
+
+#workspace {
+    width:100vw;
+    height:100vh;
+    background-color: #3E7E9C;
+}
+
+#workspace .jtk-most-recently-dragged {
+    z-index:10;
+}
+
+#jtk-workspace-controls {
+    position:fixed;
+    left:2rem;
+    top:2rem;
+}
+
+#jtk-workspace-miniview {
+    width:200px;
+    height:200px;
+    position:fixed;
+    right:2rem;
+    bottom:2rem;
+}
+
+#jtk-workspace-miniview .jtk-miniview-element {
+    outline: 5px solid #d8daee;
+}
+
+.jtk-surface-canvas {
+    /* puts the canvas above any launcher icons */
+    z-index:1;
+}
+
+

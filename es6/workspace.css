@@ -1,0 +1,77 @@
+/**
+    CSS rules for the workspace manager
+ */
+.jtk-workspace-window-close {
+    cursor:pointer;
+}
+
+.jtk-workspace-icon {
+    width:60px;
+    display:flex;
+    flex-direction:column;
+    align-items: center;
+    font-family: sans-serif;
+    color:var(--jtk-workspace-icon-color);
+    cursor:pointer;
+}
+
+.jtk-workspace-icon > div {
+    flex-basis:40px;
+    width:60px;
+    background-color:var(--jtk-workspace-icon-color);
+    margin-bottom: 0.5rem;
+    border-radius: 5px;
+    box-shadow: 0 0 10px black;
+}
+
+.jtk-workspace-icon span {
+    white-space: nowrap;
+}
+
+.jtk-workspace-window {
+    width:600px;
+    height:600px;
+    border: 2px solid var(--jtk-workspace-window-color);
+    border-radius: 0.25rem;
+
+    box-shadow: 0 0 10px black;
+    font-family: sans-serif;
+}
+
+.jtk-workspace-window > div {
+    display: flex;
+    flex-direction: column;
+    height:100%;
+}
+
+.jtk-workspace-window.jtk-drag {
+    z-index:9;
+}
+
+.jtk-workspace-window header {
+    display: flex;
+    align-items: center;
+    padding:3px;
+    background-color:var(--jtk-workspace-window-color);
+}
+
+.jtk-workspace-window header svg {
+    margin-left:auto;
+    cursor:pointer;
+}
+
+.jtk-workspace-window-controls {
+    z-index:2;
+    position:absolute;
+    left:1rem;
+    top:1rem;
+}
+
+.jtk-workspace-window-content {
+    flex-grow:1;
+    background-color:var(--jtk-workspace-window-content-color);
+}
+
+.jtk-workspace-window-close {
+    margin-left:1rem;
+}

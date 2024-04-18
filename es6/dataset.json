@@ -1,0 +1,6 @@
+{
+  "nodes":[
+    { "id":"3", "name":"Flowchart", "left":250, "top":150, "width":600, "height":600, "type":"window", "app":"flowchart"},
+    { "id":"4", "name":"Hello World", "left":900, "top":50, "width":500, "height":400, "type":"window", "app":"hello-world"}
+  ]
+}
