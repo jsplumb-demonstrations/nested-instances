@@ -1,6 +1,6 @@
 {
     "name": "nested-instances",
-    "version": "6.27.0",
+    "version": "6.28.0",
     "description": "",
     "main": "demo.js",
     "scripts": {
@@ -19,7 +19,7 @@
     },
     "homepage": "https://github.com/jsplumb-demonstrations/nested-instances#readme",
     "dependencies": {
-        "@jsplumbtoolkit/browser-ui": "^6.27.0"
+        "@jsplumbtoolkit/browser-ui": "^6.28.0"
     },
     "devDependencies": {
         "babel-cli": "^6.26.0",
