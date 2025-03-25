@@ -3,15 +3,13 @@ import { ShapeLibraryImpl,
     SelectionModes,
         DEFAULT,
     EVENT_CANVAS_CLICK,
-    MiniviewPlugin,
     BackgroundPlugin,
     AbsoluteLayout,
     EVENT_TAP,
-    BlankEndpoint,
     OrthogonalConnector,
     ControlsComponent,
     consume,
-    DrawingToolsPlugin
+    DrawingToolsPlugin, LabelOverlay
 } from "@jsplumbtoolkit/browser-ui";
 
 import {
@@ -82,8 +80,6 @@ export class Flowchart {
                             ${anchorPositions.map(ap => `<div class="jtk-connect jtk-connect-${ap.id}"  data-jtk-anchor-x="${ap.x}" data-jtk-anchor-y="${ap.y}" data-jtk-orientation-x="${ap.ox}"  data-jtk-orientation-y="${ap.oy}" data-jtk-source="true"></div>`).join("\n")}
                             <div class="node-delete node-action delete"/>
                         </div>`,
-                        // target connections to this node can exist at any of the given anchorPositions
-                        anchorPositions,
                         // node can support any number of connections.
                         maxConnections: -1,
                         events: {
@@ -104,7 +100,6 @@ export class Flowchart {
                 edges: {
                     [DEFAULT]: {
                         // Our edge uses a Blank endpoint and an Orthogonal connector.
-                        endpoint:BlankEndpoint.type,
                         connector: {
                             type:OrthogonalConnector.type,
                             options:{
@@ -123,13 +118,39 @@ export class Flowchart {
                             click:(p) => {
                                 consume(p.e)
                                 // on edge click, select the edge (the inspector will update to
-                                // show this edge), and start editing it
-                                toolkit.setSelection(p.edge)
-                                renderer.startEditingPath(p.edge, {
-                                    deleteButton:true
-                                })
+                                // show this edge). note we check for default prevented, in case the user clicked the
+                                // delete overlay.
+                                if (!p.e.defaultPrevented) {
+                                    toolkit.setSelection(p.edge)
+                                }
                             }
-                        }
+                        },
+                        overlays:[
+                            {
+                                type:LabelOverlay.type,
+                                options:{
+                                    useHTMLElement:false,
+                                    cssClass:CLASS_EDGE_LABEL,
+                                    label:"{{label}}",
+                                    location:0.5
+                                }
+                            },
+                            {
+                                type:LabelOverlay.type,
+                                options:{
+                                    useHTMLElement:false,
+                                    label:"✖",
+                                    cssClass:"jtk-flowchart-edge-delete",
+                                    location:0.2,
+                                    events:{
+                                        click:(e) => {
+                                            consume(e.e)
+                                            toolkit.removeEdge(e.edge)
+                                        }
+                                    }
+                                }
+                            }
+                        ]
                     }
                 }
             },
@@ -138,12 +159,6 @@ export class Flowchart {
             // see https://docs.jsplumbtoolkit.com/toolkit/6.x/property-mappings and `edge-mappings.js` for details.
             propertyMappings:{
                 edgeMappings:edgeMappings()
-            },
-            // enable path editing
-            editablePaths:true,
-            // Layout the nodes using an absolute layout
-            layout: {
-                type: AbsoluteLayout.type
             },
             // Snap everything to a grid. This will be used for element dragging as well as resizing and also
             // by the palette that allows users to drag new nodes on to the canvas.
@@ -155,7 +170,6 @@ export class Flowchart {
                 [EVENT_CANVAS_CLICK]: (e) => {
                     consume(e)
                     toolkit.clearSelection()
-                    renderer.stopEditingPath()
                 }
             },
             useModelForSizes:true,
@@ -164,17 +178,11 @@ export class Flowchart {
             // a selector identifying which parts of each node should not cause the element to be dragged.
             // typically here you'd list such things as buttons etc.
             dragOptions: {
-                filter: ".jtk-draw-handle, .node-action, .node-action i"
+                filter: ".node-action, .node-action i"
             },
             plugins:[
                 // // this plugin allows the user to resize elements.
-                {
-                    type:DrawingToolsPlugin.type,
-                    options:{
-                        widthAttribute:"width",
-                        heightAttribute:"height"
-                    }
-                },
+                DrawingToolsPlugin.type,
                 // use a grid background.
                 {
                     type:BackgroundPlugin.type,
@@ -191,7 +199,14 @@ export class Flowchart {
                     }
                 }
             ],
-            zoomToFit:true
+            zoomToFit:true,
+            defaults:{
+                edgesAvoidVertices:true
+            },
+            magnetize:{
+                constant:true,
+                trackback:true
+            }
         })
 
         new ControlsComponent(controlsElement, renderer)

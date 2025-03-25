@@ -20,9 +20,6 @@ ready(() => {
     const mainInstance = newInstance()
     // Render to the workspace element.
     const mainSurface = mainInstance.render(workspace, {
-        layout:{
-            type:AbsoluteLayout.type
-        },
         view:{
             nodes:{
                 "default":{
@@ -43,7 +40,7 @@ ready(() => {
         },
         dragOptions: {
             // these selectors identify parts of the DOM that should not start a drag
-            filter: ".jtk-draw-handle, .node-action, .node-action i, .jtk-workspace-window-controls, .jtk-workspace-window-controls *"
+            filter: ".node-action, .node-action i, .jtk-workspace-window-controls, .jtk-workspace-window-controls *"
         },
         consumeRightClick:false,
         plugins:[
@@ -53,13 +50,7 @@ ready(() => {
                     container:document.getElementById("jtk-workspace-miniview")
                 }
             },
-            {
-                type:DrawingToolsPlugin.type,
-                options:{
-                    widthAttribute:"width",
-                    heightAttribute:"height"
-                }
-            }
+            DrawingToolsPlugin.type
         ],
         events:{
             // on canvas click, clear the selected object.
